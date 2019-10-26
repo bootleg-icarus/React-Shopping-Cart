@@ -14,7 +14,7 @@ class App extends Component {
                 <Switch>
                     <Route exact path="/" component={Home}/>
                     <Route path="/cart" component={Cart}/>
-                  </Switch>
+                </Switch>
              </div>
        </BrowserRouter>
       
