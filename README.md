@@ -17,13 +17,22 @@ This simple application prototype shows how we can use React and Redux to build 
 
 ### Package installation
 
+In backend/index.js connect mongoose to your instance of mongodb
 
 ```bash
+cd backend
+npm install
+cd ..
+cd Shopping-Cart
 npm install
 ```
  ### Start the React App
  Excute the following command: 
 ```bash
+(in Shopping_cart)
 npm start
+(in Backend)
+node index.js
 ```
 The application will start automatically in your browser on http://localhost:3000
+
