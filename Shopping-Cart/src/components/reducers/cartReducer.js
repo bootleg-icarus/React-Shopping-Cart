@@ -9,12 +9,12 @@ import { ADD_ITEM,SUB_ITEM,SUB_QUANTITY,ADD_QUANTITY,ADD_SHIPPING,SUB_SHIPPING }
 
 const initState = {
     items: [
-        {id:1,title:'Shoe1', desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima, ex.", price:110,img:Item1},
-        {id:2,title:'Shoe2', desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima, ex.", price:80,img: Item2},
-        {id:3,title:'Shoe3', desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima, ex.",price:120,img: Item3},
-        {id:4,title:'Shoe4', desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima, ex.", price:260,img:Item4},
-        {id:5,title:'Shoe5', desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima, ex.", price:160,img: Item5},
-        {id:6,title:'Shoe6', desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima, ex.",price:90,img: Item6}
+        {id:1,title:'Shoe1', desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima, ex.", price:1100,img:Item1},
+        {id:2,title:'Shoe2', desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima, ex.", price:800,img: Item2},
+        {id:3,title:'Shoe3', desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima, ex.",price:1200,img: Item3},
+        {id:4,title:'Shoe4', desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima, ex.", price:2600,img:Item4},
+        {id:5,title:'Shoe5', desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima, ex.", price:1600,img: Item5},
+        {id:6,title:'Shoe6', desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima, ex.",price:900,img: Item6}
     ],
     addedItems:[],
     total: 0
@@ -87,13 +87,13 @@ const cartReducer= (state = initState,action)=>{
         case ADD_SHIPPING:
             return{
                 ...state,
-                total: state.total + 6
+                total: state.total + 60
             }
             
         case SUB_SHIPPING:
             return{
                 ...state,
-                total: state.total - 6
+                total: state.total - 60
             }
 
         default:
