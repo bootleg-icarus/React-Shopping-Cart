@@ -1,70 +1,52 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const mongo = require('mongodb');
+const mongoose = require('mongoose');
 
-const mongoClient = mongo.MongoClient;
-let client = new mongoClient('mongodb://localhost:27017/mern', {useNewUrlParser: true}, { useUnifiedTopology: true });
-let connection;
+mongoose.connect('mongodb://localhost:27017/test', {useNewUrlParser: true});
 
-client.connect((err,db)=>{
-    if(err){
-        console.log('Something went wrong');
-    }
-    connection = db;
+let db = mongoose.connection;
+db.once('open', function() {
+    let ourSchema = new mongoose.Schema({
+        id: Number,
+        count: Number
+    });
+    let ourModel = mongoose.model('cart', ourSchema);
+    const app = express();
+    app.use(cors());
+
+    app.get('/get-data', (req,res)=>{
+        ourModel.find({}, function(err,docs) {
+            res.send(docs);
+        });
+    })
+
+    app.post('/post-data', bodyParser.json(), (req,res)=>{
+        console.log(req.body.id);
+        ourModel.update({id:req.body.id},  {$inc : {count: 1}} , {upsert: true}, function(err,res) {
+            console.log(res);
+        })
+    })
+    app.post('/remove-item', bodyParser.json(), (req,res)=>{
+        console.log(req.body.id);
+        ourModel.find({id:req.body.id}).remove( (err,docs)=> {
+            if(err)
+                console.log(err);
+            console.log(docs);
+        })
+    })
+    app.post('/subtract-count', bodyParser.json(), (req,res)=>{
+        console.log(req.body.id);
+        ourModel.update({id:req.body.id},  {$inc : {count: -1}} , function(err,res) {
+            console.log(res);
+        })
+    })
+    app.post('/add-count', bodyParser.json(), (req,res)=>{
+        console.log(req.body.id);
+        ourModel.update({id:req.body.id},  {$inc : {count: 1}} , function(err,res) {
+            console.log(res);
+        })
+    })
+    app.listen(3002, () => console.log('Express started at port 3002'));
 });
 
-const app = express();
-app.use(cors());
-
-app.get('/get-data', (req,res)=>{
-    let collection_instance = connection.db('mern').collection('mern');
-    collection_instance.find().toArray((err,docs)=>{
-        if(err){
-            console.log("Something went wrong");
-        }
-        else{
-            res.send(docs);
-        }
-    })
-})
-let insertedIds = [];
-let dbInsertId = {};
-app.post('/post-data', bodyParser.json(), (req,res)=>{
-    index = insertedIds.findIndex( (id) => id === req.body.id)
-    if( index === -1) {
-        insertedIds.push(req.body.id);        
-        let collection_instance = connection.db('mern').collection('mern');
-        console.log(req.body);	
-        
-
-        collection_instance.updateOne(
-            {id: 1},
-            {
-                $set : req.body,
-            },
-            {upsert: true}
-        );
-
-        }
-        
-        
-    else{
-        // let collection_instance = connection.db('mern').collection('mern');
-	    // console.log(req.body);	
-        // collection_instance.insertOne(req.body, (err,records)=>{
-        //     if(err){
-        //         console.log(err);
-        //     }
-        //     else{
-        //         res.send({ status: "Inserted"});
-        //     }
-        // });
-    }
-    console.log(insertedIds);
-    
-    
-    
-    
-})
-app.listen(3002, () => console.log('Express started at port 3002'));
